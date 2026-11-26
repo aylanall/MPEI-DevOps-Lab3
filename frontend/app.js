@@ -11,18 +11,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let isRunning = false;
 
-    // Генерация одного тестового события.
-    // ВАЖНО: проверьте обязательные поля в Swagger (/docs), когда бэкенд запущен.
-    // Возможно, потребуются дополнительные поля (location, time и т.д.).
     function generateEvent(index) {
+        const start = new Date();
+        const end = new Date(start.getTime() + 2 * 60 * 60 * 1000); 
+
         return {
-            name: `Тестовое событие #${index}`,
-            description: `Автоматически созданное событие для нагрузочного теста. Номер: ${index}`
+            op: "create",
+            fields: {
+                title: `Test Event #${index}`, 
+
+                artist_id: crypto.randomUUID(),
+                venue_id: crypto.randomUUID(),
+                genre_code: "concert", 
+                starts_at: start.toISOString(),
+                ends_at: end.toISOString(),
+                price_rub: 1500,
+                age_rating: 18,
+                ticket_quota: 100,
+                status: "published"
+            }
         };
     }
-
     async function sendBatch(batch, batchNumber) {
-        const payload = { events: batch };
+        const payload = { operations: batch };
         const startTime = performance.now();
         try {
             const response = await fetch('/api/v1/events/bulk', {
