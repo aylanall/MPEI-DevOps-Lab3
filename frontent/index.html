@@ -1,1 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Нагрузочное тестирование: Массовое создание событий</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Нагрузочное тестирование</h1>
+        <p>Массовое создание событий через <code>POST /api/v1/events/bulk</code> (до 200 операций в пакете)</p>
 
+        <div class="controls">
+            <div class="input-group">
+                <label for="totalCount">Общее количество событий:</label>
+                <input type="number" id="totalCount" value="1000" min="1">
+            </div>
+            <div class="input-group">
+                <label for="batchSize">Размер пакета (1–200):</label>
+                <input type="number" id="batchSize" value="100" min="1" max="200">
+            </div>
+            <button id="startBtn">Запустить тест</button>
+        </div>
+
+        <div class="summary" id="summary" style="display: none;">
+            <h2>Итоги</h2>
+            <p><strong>Общее время:</strong> <span id="totalTime">—</span></p>
+            <p><strong>Средняя скорость:</strong> <span id="avgSpeed">—</span></p>
+            <p><strong>Успешно создано:</strong> <span id="successCount">0</span></p>
+            <p><strong>Ошибок:</strong> <span id="errorCount">0</span></p>
+        </div>
+
+        <h2>Лог пакетов</h2>
+        <div class="log-container" id="logContainer"></div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
