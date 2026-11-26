@@ -2,12 +2,12 @@ version: '3.8'
 
 services:
   db:
-    image: postgis/postgis:17-3.6
+    image: postgis/postgis:17-3.5
     container_name: mpei-lab3-db
     environment:
       POSTGRES_DB: moscow_events
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: lll12345
+      POSTGRES_PASSWORD: llll12345
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
