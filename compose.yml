@@ -1,1 +1,48 @@
+version: '3.8'
 
+services:
+  db:
+    image: postgis/postgis:17-3.6
+    container_name: mpei-lab3-db
+    environment:
+      POSTGRES_DB: moscow_events
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: lll12345
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  backend:
+    image: ghcr.io/nelkor/moscow-events:latest
+    container_name: mpei-lab3-backend
+    depends_on:
+      - db
+    environment:
+      PG_HOST: db
+      PG_PORT: 5432
+      PG_DB_NAME: moscow_events
+      PG_USER_NAME: postgres
+      PG_USER_PASSWORD: llll12345
+    networks:
+      - app-network
+
+  frontend:
+    image: nginx:alpine
+    container_name: mpei-lab3-frontend
+    ports:
+      - "8080:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html:ro
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+volumes:
+  postgres_data:
+
+networks:
+  app-network:
+    driver: bridge
